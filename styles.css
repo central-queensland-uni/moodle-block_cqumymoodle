@@ -1,0 +1,18 @@
+li.cqumymoodle_category {
+    list-style-type: none;
+}
+
+.cqumymoodle_category h3 {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+li.cqumymoodle_courses {
+    display: block;
+    background-image: url('/theme/image.php?theme=standard&component=core&image=i%2Fcourse');
+    background-repeat: no-repeat;
+    padding-left: 25px;
+    padding-bottom: 3px;
+    background-position: left top;
+}
