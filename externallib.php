@@ -90,55 +90,60 @@ class block_cqumymoodle_external extends external_api {
             throw new invalid_parameter_exception("The field '$field' value is invalid: $value '(cleaned value: $cleanedvalue)");
         }
 
-        // Retrieve the user
-        $user = $DB->get_records_list('user', $field, array($cleanedvalue), 'id');
-        $user = array_shift($user);
-
-        $courses = enrol_get_users_courses($user->id, true, 'id, shortname, fullname, idnumber');
-
-        // Finally append the full course link to the record
+        // Append the full course link to the record.
         $returnedcourses = array();
 
-        foreach ($courses as $course) {
+        // Retrieve the user
+        $user = $DB->get_records_list('user', $field, array($cleanedvalue), 'id');
+        if (isset($user)) {
 
-            $context = context_course::instance($course->id, IGNORE_MISSING);
+            $user = array_shift($user);
 
-            try {
-                self::validate_context($context);
-            } catch (Exception $e) {
-                // Current user cannot access this course, we cannot disclose to them who is enrolled
-                continue;
+            $courses = enrol_get_users_courses($user->id, true, 'id, shortname, fullname, idnumber');
+
+            foreach ($courses as $course) {
+
+                $context = context_course::instance($course->id, IGNORE_MISSING);
+
+                try {
+                    self::validate_context($context);
+                } catch (Exception $e) {
+                    // Current user cannot access this course, we cannot disclose to them who is enrolled
+                    continue;
+                }
+
+                if ($user->id != $USER->id
+                    && !has_capability('moodle/course:viewparticipants', $context)
+                ) {
+                    // We need the capabilty to view participants
+                    continue;
+                }
+
+                $category = $DB->get_field('course_categories', 'name', array('id' => $course->category));
+
+                $coursedetails = array(
+                    'id'        => $course->id,
+                    'shortname' => $course->shortname,
+                    'fullname'  => $course->fullname,
+                    'idnumber'  => $course->idnumber,
+                    'courselink'=> "$CFG->wwwroot/course/view.php?id=$course->id",
+                    'category'  => $category
+                );
+
+                $returnedcourses[] = $coursedetails;
             }
-
-            if ($user->id != $USER->id
-                && !has_capability('moodle/course:viewparticipants', $context)
-            ){
-                // We need the capabilty to view participants
-                continue;
-            }
-
-            $category = $DB->get_field('course_categories', 'name', array('id' => $course->category));
-
-            $coursedetails = array(
-                'id'        => $course->id,
-                'shortname' => $course->shortname,
-                'fullname'  => $course->fullname,
-                'idnumber'  => $course->idnumber,
-                'courselink'=> "$CFG->wwwroot/course/view.php?id=$course->id",
-                'category'  => $category
-            );
-
-            $returnedcourses[] = $coursedetails;
+        } else {
+            debugging("User does not exist for query: $field using value: $cleanedvalue", DEBUG_DEVELOPER);
         }
 
         return $returnedcourses;
     }
 
     /**
-    * Returns description of method result value
-    *
-    * @return external_description
-    */
+     * Returns description of method result value
+     *
+     * @return external_description
+     */
     public static function get_user_courses_returns() {
         return new external_multiple_structure(
             new external_single_structure(
