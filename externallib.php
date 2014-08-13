@@ -93,9 +93,9 @@ class block_cqumymoodle_external extends external_api {
         // Append the full course link to the record.
         $returnedcourses = array();
 
-        // Retrieve the user
+        // Retrieve the user.
         $user = $DB->get_records_list('user', $field, array($cleanedvalue), 'id');
-        if (isset($user)) {
+        if (!empty($user)) {
 
             $user = array_shift($user);
 
@@ -108,14 +108,14 @@ class block_cqumymoodle_external extends external_api {
                 try {
                     self::validate_context($context);
                 } catch (Exception $e) {
-                    // Current user cannot access this course, we cannot disclose to them who is enrolled
+                    // Current user cannot access this course, we cannot disclose to them who is enrolled.
                     continue;
                 }
 
                 if ($user->id != $USER->id
                     && !has_capability('moodle/course:viewparticipants', $context)
                 ) {
-                    // We need the capabilty to view participants
+                    // We need the capabilty to view participants.
                     continue;
                 }
 
