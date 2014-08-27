@@ -153,7 +153,7 @@ class block_cqumymoodle extends block_base {
             }
 
             // Do stuff!
-            $courses = get_courses_json($endpoint, $ssl, $token, $id, $idtype, $ismoodle);
+            $courses = block_cqumymoodle_get_courses_json($endpoint, $ssl, $token, $id, $idtype, $ismoodle);
             if (!empty($courses)) {
 
                 $html .= html_writer::start_tag('ul');

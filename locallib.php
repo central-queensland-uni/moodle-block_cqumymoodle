@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die;
  *
  * @return mixed bool|array Array of links or false if nothing found
  */
-function get_courses_json($endpoint, $ssl = false, $token = null, $uid, $uidtype, $ismoodle = true) {
+function block_cqumymoodle_get_courses_json($endpoint, $ssl = false, $token = null, $uid, $uidtype, $ismoodle = true) {
 
     $restformat = 'json'; // Only works in Moodle 2.2 and above.
     $params = "field=".urlencode($uidtype)."&value=".urlencode($uid)."&";
@@ -62,7 +62,7 @@ function get_courses_json($endpoint, $ssl = false, $token = null, $uid, $uidtype
         return false;
     }
 
-    $incjson = curl_wrapper($serverurl, $restformat, $params);
+    $incjson = block_cqumymoodle_curl_wrapper($serverurl, $restformat, $params);
     $courses = json_decode($incjson);
 
     if (!empty($courses)) {
@@ -82,7 +82,7 @@ function get_courses_json($endpoint, $ssl = false, $token = null, $uid, $uidtype
  *
  * @return mixed bool|string False if error, JSON string on success
  */
-function curl_wrapper($serverurl, $restformat, $params) {
+function block_cqumymoodle_curl_wrapper($serverurl, $restformat, $params) {
     global $CFG;
 
     // Make the rest call.
