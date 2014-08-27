@@ -30,43 +30,42 @@ class block_cqumymoodle extends block_base {
     public $blockname = null;
 
     /**
-     *  Set the initial properties for the block
-     *  @return void
+     * Set the initial properties for the block
+     * @return void
      */
     public function init() {
-        global $CFG;
 
         $this->blockname    = get_class($this);
         $this->title        = get_string('blocktitle', $this->blockname);
     }
 
     /**
-     *  Can we set config options for the block?
-     *  @return bool
+     * Can we set config options for the block?
+     * @return bool
      */
     public function has_config() {
         return false;
     }
 
     /**
-     *  Should we hide the blocks header?
-     *  @return bool
+     * Should we hide the blocks header?
+     * @return bool
      */
     public function hide_header() {
         return false;
     }
 
     /**
-     *  Should we allow multiple instances of this block?
-     *  @return bool
+     * Should we allow multiple instances of this block?
+     * @return bool
      */
     public function instance_allow_multiple() {
         return true;
     }
 
     /**
-     *  Set the applicable formats for this block to call
-     *  @return array
+     * Set the applicable formats for this block to call
+     * @return array
      */
     public function applicable_formats() {
         return array('all' => true);
@@ -77,36 +76,36 @@ class block_cqumymoodle extends block_base {
     }
 
     /**
-     *  Allow the user to configure a block instance?
-     *  @return bool
+     * Allow the user to configure a block instance?
+     * @return bool
      */
     public function instance_allow_config() {
         return true;
     }
 
     /**
-     *  Allow the instance to be hidden?
-     *  @return bool
+     * Allow the instance to be hidden?
+     * @return bool
      */
     public function instance_can_be_hidden() {
         return true;
     }
 
-   /**
-    *  Find out if an instance can be docked
-    *  @return bool
-    */
-   public function instance_can_be_docked() {
-       return (
-           parent::instance_can_be_docked() &&
-           (empty($this->config->enabledock) ||
-               $this->config->enabledock == 'yes')
-       );
-   }
+    /**
+     * Find out if an instance can be docked
+     * @return bool
+     */
+    public function instance_can_be_docked() {
+        return (
+            parent::instance_can_be_docked() &&
+            (empty($this->config->enabledock) ||
+            $this->config->enabledock == 'yes')
+        );
+    }
 
     /**
-     *  Get the contents of the block
-     *  @return object $this->content
+     * Get the contents of the block
+     * @return object $this->content
      */
     public function get_content() {
         global $CFG, $USER;
@@ -115,7 +114,7 @@ class block_cqumymoodle extends block_base {
             return $this->content;
         }
 
-        require_once $CFG->dirroot.'/blocks/cqumymoodle/locallib.php';
+        require_once($CFG->dirroot.'/blocks/cqumymoodle/locallib.php');
 
         $this->content = new stdClass;
         $this->content->footer = '';
@@ -161,14 +160,14 @@ class block_cqumymoodle extends block_base {
 
                 $categories = array();
 
-                // Process courses
+                // Process courses.
                 foreach ($courses as $course) {
 
                     if ($showfullname && $showshortname) {
                         $coursename = "$course->shortname : $course->fullname";
                     } else if ($showfullname) {
                         $coursename = $course->fullname;
-                    } else { // If not specified we just show the shortname
+                    } else { // If not specified we just show the shortname.
                         $coursename = $course->shortname;
                     }
 
@@ -178,10 +177,10 @@ class block_cqumymoodle extends block_base {
                     );
                 }
 
-                // Process the categories array to spit out the course info
+                // Process the categories array to spit out the course info.
                 foreach ($categories as $category => $courses) {
 
-                    // If we show the category, add it to html
+                    // If we show the category, add it to html.
                     if ($showcategory) {
                         $attributes['class'] = 'cqumymoodle_category';
                         $html .= html_writer::start_tag('li', $attributes);
@@ -190,7 +189,7 @@ class block_cqumymoodle extends block_base {
                         $html .= html_writer::start_tag('ul');
                     }
 
-                    // Of course we want to add the courses
+                    // Of course we want to add the courses.
                     foreach ($courses as $course) {
                         $html .= html_writer::tag(
                             'li',
@@ -199,7 +198,7 @@ class block_cqumymoodle extends block_base {
                         );
                     }
 
-                    // Make sure we close the tag if we add category
+                    // Make sure we close the tag if we add category.
                     if ($showcategory) {
                         $html .= html_writer::end_tag('ul');
                     }
@@ -212,20 +211,20 @@ class block_cqumymoodle extends block_base {
             $html .= html_writer::tag('span', get_string('noendpointset', 'block_cqumymoodle'));
         }
 
-        $html .= html_writer::end_tag('div');   // Close content div
-        $html .= html_writer::end_tag('div');   // Close outer-container div
+        $html .= html_writer::end_tag('div');   // Close content div.
+        $html .= html_writer::end_tag('div');   // Close outer-container div.
         $html .= '<!-- End block_cqumymoodle -->';
 
         $this->content->text = $html;
     }
 
     /**
-     *  Serialize and store config data
-     *  @return void
+     * Serialize and store config data
+     * @return void
      */
     public function instance_config_save($data, $nolongerused = false) {
 
-        // This is so we can customise the data if need be
+        // This is so we can customise the data if need be.
         $config = clone($data);
 
         if (strpos($config->endpoint, 'https') !== false) {
@@ -234,7 +233,7 @@ class block_cqumymoodle extends block_base {
             $config->ssl = 0;
         }
 
-        // Call parent and save the data
+        // Call parent and save the data.
         parent::instance_config_save($config, $nolongerused);
     }
 }
