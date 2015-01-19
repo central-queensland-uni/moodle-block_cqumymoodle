@@ -32,7 +32,8 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
 
     protected $categories;
     protected $courses;
-    protected $user;
+    protected $student;
+    protected $teacher;
 
     /**
      * @group blocks_cqumymoodle
@@ -55,13 +56,14 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
                     'idnumber'      => ($i * 246),
                     'fullname'      => 'Test Course '.$i,
                     'shortname'     => 'testcourse'.$i.'2014',
-                    'category'      => $this->categories[($i % 2 + 1)]->id
+                    'category'      => $this->categories[($i % 2 + 1)]->id,
+                    'visible'       => ($i % 2) // Odd courses are visible.
                 )
             );
         }
 
-        // Create user.
-        $this->user = $this->getDataGenerator()->create_user(
+        // Create student.
+        $this->student = $this->getDataGenerator()->create_user(
             array(
                 'idnumber'  => 123456,
                 'email'     => 'test@test.com',
@@ -69,8 +71,18 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
             )
         );
 
+        // Create teacher.
+        $this->teacher = $this->getDataGenerator()->create_user(
+            array(
+                'idnumber'  => 543621,
+                'email'     => 'test2@test.com',
+                'username'  => 'yomrwhite'
+            )
+        );
+
         foreach ($this->courses as $course) {
-            $this->getDataGenerator()->enrol_user($this->user->id, $course->id);
+            $this->getDataGenerator()->enrol_user($this->student->id, $course->id, 5);
+            $this->getDataGenerator()->enrol_user($this->teacher->id, $course->id, 3);
         }
     }
 
@@ -89,38 +101,48 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
     /**
      * @group blocks_cqumymoodle
      */
-    public function test_match_username() {
+    public function test_student_match_username() {
 
-        self::setAdminUser();
-        load_all_capabilities();
+        self::setUser($this->student);
         $this->resetAfterTest(true);
 
-        $courses = block_cqumymoodle_external::get_user_courses('username', $this->user->username);
-        $this->assertEquals(count($courses), 5, "It should return 5 courses");
+        $courses = block_cqumymoodle_external::get_user_courses('username', $this->student->username);
+        $this->assertEquals(3, count($courses), "It should return 3 courses");
     }
 
     /**
      * @group blocks_cqumymoodle
      */
-    public function test_match_email() {
+    public function test_student_match_email() {
 
-        self::setAdminUser();
-        load_all_capabilities();
+        self::setUser($this->student);
         $this->resetAfterTest(true);
 
-        $courses = block_cqumymoodle_external::get_user_courses('email', $this->user->email);
-        $this->assertEquals(count($courses), 5, "It should return 5 courses");
+        $courses = block_cqumymoodle_external::get_user_courses('email', $this->student->email);
+        $this->assertEquals(3, count($courses), "It should return 3 courses");
     }
 
     /**
      * @group blocks_cqumymoodle
      */
-    public function test_match_idnumber() {
-        self::setAdminUser();
-        load_all_capabilities();
+    public function test_student_match_idnumber() {
+
+        self::setUser($this->student);
         $this->resetAfterTest(true);
 
-        $courses = block_cqumymoodle_external::get_user_courses('idnumber', $this->user->idnumber);
-        $this->assertEquals(count($courses), 5, "It should return 5 courses");
+        $courses = block_cqumymoodle_external::get_user_courses('idnumber', $this->student->idnumber);
+        $this->assertEquals(3, count($courses), "It should return 3 courses");
+    }
+
+    /**
+     * @group blocks_cqumymoodle
+     */
+    public function test_teacher_hidden_courses() {
+
+        self::setUser($this->teacher);
+        $this->resetAfterTest(true);
+
+        $courses = block_cqumymoodle_external::get_user_courses('idnumber', $this->teacher->idnumber);
+        $this->assertEquals(5, count($courses), "It should return 5 courses");
     }
 }
