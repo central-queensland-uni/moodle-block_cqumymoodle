@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once $CFG->dirroot.'/webservice/tests/helpers.php';
+require_once($CFG->dirroot.'/webservice/tests/helpers.php');
 
 class block_cqumymoodle_external_testcase extends externallib_advanced_testcase {
 
@@ -35,24 +35,24 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
     protected $user;
 
     /**
-     *  @group blocks_cqumymoodle
+     * @group blocks_cqumymoodle
      */
     protected function setUp() {
-        global $CFG, $DB;
-        include_once $CFG->dirroot.'/blocks/cqumymoodle/externallib.php';
+        global $CFG;
+        include_once($CFG->dirroot.'/blocks/cqumymoodle/externallib.php');
 
-        // Create categories
+        // Create categories.
         for ($i = 1; $i <= 2; $i++) {
             $this->categories[$i] = $this->getDataGenerator()->create_category(
                 array('name' => 'Test Category '.$i)
             );
         }
 
-        // Create courses
+        // Create courses.
         for ($i = 1; $i <= 5; $i++) {
             $this->courses[$i] = $this->getDataGenerator()->create_course(
                 array(
-                    'idnumber'      => ($i*246),
+                    'idnumber'      => ($i * 246),
                     'fullname'      => 'Test Course '.$i,
                     'shortname'     => 'testcourse'.$i.'2014',
                     'category'      => $this->categories[($i % 2 + 1)]->id
@@ -60,7 +60,7 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
             );
         }
 
-        // Create user
+        // Create user.
         $this->user = $this->getDataGenerator()->create_user(
             array(
                 'idnumber'  => 123456,
@@ -75,19 +75,19 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
     }
 
     /**
-     *  @group blocks_cqumymoodle
+     * @group blocks_cqumymoodle
      */
-    static function setAdminUser() {
+    public static function setAdminUser() {
         global $USER;
         parent::setAdminUser();
-        // The logged in user needs email, country and city to do certain things
+        // The logged in user needs email, country and city to do certain things.
         $USER->email    = 'admin@test.com';
         $USER->country  = 'AU';
         $USER->city     = 'Sydney';
     }
 
     /**
-     *  @group blocks_cqumymoodle
+     * @group blocks_cqumymoodle
      */
     public function test_match_username() {
 
@@ -100,7 +100,7 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
     }
 
     /**
-     *  @group blocks_cqumymoodle
+     * @group blocks_cqumymoodle
      */
     public function test_match_email() {
 
@@ -113,7 +113,7 @@ class block_cqumymoodle_external_testcase extends externallib_advanced_testcase 
     }
 
     /**
-     *  @group blocks_cqumymoodle
+     * @group blocks_cqumymoodle
      */
     public function test_match_idnumber() {
         self::setAdminUser();
