@@ -99,7 +99,7 @@ class block_cqumymoodle_external extends external_api {
 
             $user = array_shift($user);
 
-            $courses = enrol_get_users_courses($user->id, true, 'id, shortname, fullname, idnumber');
+            $courses = enrol_get_users_courses($user->id, false, 'id, shortname, fullname, idnumber');
 
             foreach ($courses as $course) {
 
@@ -116,6 +116,13 @@ class block_cqumymoodle_external extends external_api {
                     && !has_capability('moodle/course:viewparticipants', $context)
                 ) {
                     // We need the capabilty to view participants.
+                    continue;
+                }
+
+                if ($course->visible === 0
+                    && !has_capability('moodle/course:viewhiddencourses', $context)
+                ) {
+                    // We need the capability to view hidden courses.
                     continue;
                 }
 
