@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version    = 2014082700;           // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version    = 2015012000;           // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires   = 2011120500;           // Moodle 2.2 and above.
 $plugin->component  = 'block_cqumymoodle';  // Fullname of the plugin (used for diagnostics).
 $plugin->maturity   = MATURITY_STABLE;      // Ready for production sites.
-$plugin->release    = '1.0.1 (Build: 2014082700)';
+$plugin->release    = '1.0.2 (Build: 2015012000)';
