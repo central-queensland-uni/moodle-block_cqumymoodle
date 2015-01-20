@@ -71,6 +71,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
             get_string('configendpoint', 'block_cqumymoodle'),
             array('size' => 40)
         );
+        $mform->addHelpButton('config_endpoint', 'configendpoint', 'block_cqumymoodle');
         $mform->addRule('config_endpoint', null, 'required', null, 'client');
         $mform->setType('config_endpoint', PARAM_URL);
 
