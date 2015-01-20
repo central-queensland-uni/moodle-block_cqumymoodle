@@ -27,6 +27,7 @@
 $string['blocktitle'] = 'CQU MyMoodle';
 $string['pluginname'] = 'CQU MyMoodle';
 $string['configendpoint'] = 'Endpoint';
+$string['configendpoint_help'] = 'E.g: https://example.com/webservice/rest/server.php if we are connecting to another Moodle instance';
 $string['configismoodle'] = 'External Moodle';
 $string['configssl'] = 'SSL';
 $string['configtitle'] = 'Block title';
