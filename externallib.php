@@ -59,7 +59,7 @@ class block_cqumymoodle_external extends external_api {
         global $CFG, $USER, $DB;
         require_once($CFG->dirroot . "/user/lib.php");
 
-        $params = self::validate_parameters(
+        self::validate_parameters(
                 self::get_user_courses_parameters(),
                 array('field' => $field, 'value' => $value)
         );
@@ -83,7 +83,7 @@ class block_cqumymoodle_external extends external_api {
                     "The search field '$field' is not supported, look at the web service documentation");
         }
 
-        // Clean the values
+        // Clean the values.
         $cleanedvalue = clean_param($value, $paramtype);
         if ( $value != $cleanedvalue) {
 
@@ -112,15 +112,15 @@ class block_cqumymoodle_external extends external_api {
                     continue;
                 }
 
-                if ($user->id != $USER->id
-                    && !has_capability('moodle/course:viewparticipants', $context)
+                if ($user->id !== $USER->id
+                    && !has_capability('moodle/course:viewparticipants', $context, $user)
                 ) {
                     // We need the capabilty to view participants.
                     continue;
                 }
 
                 if ($course->visible === 0
-                    && !has_capability('moodle/course:viewhiddencourses', $context)
+                    && !has_capability('moodle/course:viewhiddencourses', $context, $user)
                 ) {
                     // We need the capability to view hidden courses.
                     continue;
