@@ -99,7 +99,7 @@ class block_cqumymoodle_external extends external_api {
 
             $user = array_shift($user);
 
-            $courses = enrol_get_users_courses($user->id, false, 'id, shortname, fullname, idnumber');
+            $courses = enrol_get_users_courses($user->id, false, 'id, shortname, fullname, idnumber, visible');
 
             foreach ($courses as $course) {
 
@@ -134,7 +134,8 @@ class block_cqumymoodle_external extends external_api {
                     'fullname'  => $course->fullname,
                     'idnumber'  => $course->idnumber,
                     'courselink'=> "$CFG->wwwroot/course/view.php?id=$course->id",
-                    'category'  => $category
+                    'category'  => $category,
+                    'visible'   => $course->visible
                 );
 
                 $returnedcourses[] = $coursedetails;
@@ -160,7 +161,8 @@ class block_cqumymoodle_external extends external_api {
                     'fullname'  => new external_value(PARAM_RAW, 'long name of course'),
                     'idnumber'  => new external_value(PARAM_RAW, 'id number of course'),
                     'courselink'=> new external_value(PARAM_RAW, 'fully qualified link to course'),
-                    'category'  => new external_value(PARAM_RAW, 'the parent category of the course')
+                    'category'  => new external_value(PARAM_RAW, 'the parent category of the course'),
+                    'visible'  => new external_value(PARAM_RAW, 'the visibility of the course')
                 ), 'List of courses'
             )
         );

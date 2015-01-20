@@ -191,10 +191,16 @@ class block_cqumymoodle extends block_base {
 
                     // Of course we want to add the courses.
                     foreach ($courses as $course) {
+
+                        $courseattr['class'] = 'cqumymoodle_courses';
+                        if (!$course->visible) {
+                            $courseattr['class'] .= ' dimmed';
+                        }
+
                         $html .= html_writer::tag(
                             'li',
                             $course,
-                            array('class' => 'cqumymoodle_courses')
+                            $courseattr
                         );
                     }
 
