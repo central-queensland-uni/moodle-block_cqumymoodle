@@ -32,6 +32,6 @@ $functions = array(
         'classpath'     => 'blocks/cqumymoodle/externallib.php',
         'description'   => 'Get the list of courses where a user is enrolled in.',
         'type'          => 'read',
-        'capabilities'  => 'moodle/user:update, moodle/course:useremail, moodle/course:viewparticipants, moodle/course:view, moodle/user:viewdetails, moodle/user:viewhiddendetails, webservice/rest:use'
+        'capabilities'  => 'moodle/user:update, moodle/course:useremail, moodle/course:viewparticipants, moodle/course:view, moodle/course:viewhiddencourses, moodle/user:viewdetails, moodle/user:viewhiddendetails, webservice/rest:use'
     ),
 );
