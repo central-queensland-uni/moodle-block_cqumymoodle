@@ -26,12 +26,11 @@
 class block_cqumymoodle_edit_form extends block_edit_form {
 
     protected function specific_definition($mform) {
-        global $CFG;
 
-        // Fields for configuring the CQUMyMoodle block
+        // Fields for configuring the CQUMyMoodle block.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        // Set the block title
+        // Set the block title.
         $mform->addElement(
             'text',
             'config_title',
@@ -40,7 +39,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         );
         $mform->setType('config_title', PARAM_TEXT);
 
-        // Set whether we should display the course fullname
+        // Set whether we should display the course fullname.
         $mform->addElement(
             'advcheckbox',
             'config_displayfullname',
@@ -48,7 +47,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         );
         $mform->setType('config_displayfullname', PARAM_INT);
 
-        // Set whether we should display the course shortname
+        // Set whether we should display the course shortname.
         $mform->addElement(
             'advcheckbox',
             'config_displayshortname',
@@ -56,7 +55,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         );
         $mform->setType('config_displayshortname', PARAM_INT);
 
-        // Set whether we should display the course shortname
+        // Set whether we should display the course shortname.
         $mform->addElement(
             'advcheckbox',
             'config_displaycategory',
@@ -64,7 +63,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         );
         $mform->setType('config_displaycategory', PARAM_INT);
 
-        // Set the endpoint to call
+        // Set the endpoint to call.
         $mform->addElement(
             'text',
             'config_endpoint',
@@ -75,14 +74,14 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         $mform->addRule('config_endpoint', null, 'required', null, 'client');
         $mform->setType('config_endpoint', PARAM_URL);
 
-        // Set whether or not to use SSL
+        // Set whether or not to use SSL.
         $mform->addElement(
             'advcheckbox',
             'config_ssl',
             get_string('configssl', 'block_cqumymoodle')
         );
 
-        // Set which user field to match on the external system
+        // Set which user field to match on the external system.
         $umarr = array();
         $umarr[] =& $mform->createElement('radio', 'config_usermatch', '', get_string('username'), 0);
         $umarr[] =& $mform->createElement('radio', 'config_usermatch', '', get_string('email'), 1);
@@ -96,14 +95,14 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         );
         $mform->addRule('usermatch', null, 'required', null, 'client');
 
-        // Set whether we are connecting to an external moodle
+        // Set whether we are connecting to an external moodle.
         $mform->addElement(
             'advcheckbox',
             'config_ismoodle',
             get_string('configismoodle', 'block_cqumymoodle')
         );
 
-        // Set the webservice token
+        // Set the webservice token.
         $mform->addElement(
             'text',
             'config_token',
@@ -114,7 +113,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
 
     }
 
-    function set_data($defaults) {
+    public function set_data($defaults) {
         if (!empty($this->block->config) && is_object($this->block->config)) {
             $endpoint = $this->block->config->endpoint;
             if (empty($endpoint)) {
@@ -128,24 +127,24 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         }
 
         if (!$this->block->user_can_edit() && !empty($this->block->config->title)) {
-            // If a title has been set but the user cannot edit it format it nicely
+            // If a title has been set but the user cannot edit it format it nicely.
             $title = $this->block->config->title;
             $defaults->config_title = format_string($title, true, $this->page->context);
             // Remove the title from the config so that parent::set_data doesn't set it.
             unset($this->block->config->title);
         }
 
-        // have to delete text here, otherwise parent::set_data will empty content
-        // of editor
+        // Have to delete text here, otherwise parent::set_data will empty content
+        // of editor.
         unset($this->block->config->endpoint);
         parent::set_data($defaults);
-        // restore $endpoint
+        // Restore $endpoint.
         if (!isset($this->block->config)) {
             $this->block->config = new stdClass();
         }
         $this->block->config->endpoint = $endpoint;
         if (isset($title)) {
-            // Reset the preserved title
+            // Reset the preserved title.
             $this->block->config->title = $title;
         }
     }
