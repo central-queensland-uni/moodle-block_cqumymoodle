@@ -119,7 +119,7 @@ class block_cqumymoodle_external extends external_api {
                     continue;
                 }
 
-                if ($course->visible === 0
+                if ($course->visible == 0
                     && !has_capability('moodle/course:viewhiddencourses', $context, $user)
                 ) {
                     // We need the capability to view hidden courses.
@@ -129,13 +129,13 @@ class block_cqumymoodle_external extends external_api {
                 $category = $DB->get_field('course_categories', 'name', array('id' => $course->category));
 
                 $coursedetails = array(
-                    'id'        => $course->id,
-                    'shortname' => $course->shortname,
-                    'fullname'  => $course->fullname,
-                    'idnumber'  => $course->idnumber,
-                    'courselink'=> "$CFG->wwwroot/course/view.php?id=$course->id",
-                    'category'  => $category,
-                    'visible'   => $course->visible
+                    'id'         => $course->id,
+                    'shortname'  => $course->shortname,
+                    'fullname'   => $course->fullname,
+                    'idnumber'   => $course->idnumber,
+                    'courselink' => "$CFG->wwwroot/course/view.php?id=$course->id",
+                    'category'   => $category,
+                    'visible'    => $course->visible
                 );
 
                 $returnedcourses[] = $coursedetails;
@@ -156,13 +156,13 @@ class block_cqumymoodle_external extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 array(
-                    'id'        => new external_value(PARAM_INT, 'id of course'),
-                    'shortname' => new external_value(PARAM_RAW, 'short name of course'),
-                    'fullname'  => new external_value(PARAM_RAW, 'long name of course'),
-                    'idnumber'  => new external_value(PARAM_RAW, 'id number of course'),
-                    'courselink'=> new external_value(PARAM_RAW, 'fully qualified link to course'),
-                    'category'  => new external_value(PARAM_RAW, 'the parent category of the course'),
-                    'visible'  => new external_value(PARAM_RAW, 'the visibility of the course')
+                    'id'         => new external_value(PARAM_INT, 'id of course'),
+                    'shortname'  => new external_value(PARAM_RAW, 'short name of course'),
+                    'fullname'   => new external_value(PARAM_RAW, 'long name of course'),
+                    'idnumber'   => new external_value(PARAM_RAW, 'id number of course'),
+                    'courselink' => new external_value(PARAM_RAW, 'fully qualified link to course'),
+                    'category'   => new external_value(PARAM_RAW, 'the parent category of the course'),
+                    'visible'    => new external_value(PARAM_RAW, 'the visibility of the course')
                 ), 'List of courses'
             )
         );

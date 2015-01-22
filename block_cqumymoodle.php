@@ -171,9 +171,15 @@ class block_cqumymoodle extends block_base {
                         $coursename = $course->shortname;
                     }
 
+                    $linkattrs = null;
+                    if ($course->visible != 1) {
+                        $linkattrs['class'] = 'dimmed';
+                    }
+
                     $categories[$course->category][] = html_writer::link(
                         $course->courselink,
-                        $coursename
+                        $coursename,
+                        $linkattrs
                     );
                 }
 
@@ -192,15 +198,10 @@ class block_cqumymoodle extends block_base {
                     // Of course we want to add the courses.
                     foreach ($courses as $course) {
 
-                        $courseattr['class'] = 'cqumymoodle_courses';
-                        if (!$course->visible) {
-                            $courseattr['class'] .= ' dimmed';
-                        }
-
                         $html .= html_writer::tag(
                             'li',
                             $course,
-                            $courseattr
+                            array('class' => 'cqumymoodle_courses')
                         );
                     }
 
