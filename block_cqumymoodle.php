@@ -172,7 +172,7 @@ class block_cqumymoodle extends block_base {
                     }
 
                     $linkattrs = null;
-                    if ($course->visible != 1) {
+                    if (isset($course->visible) && $course->visible != 1) {
                         $linkattrs['class'] = 'dimmed';
                     }
 
