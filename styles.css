@@ -10,7 +10,7 @@ li.cqumymoodle_category {
 
 li.cqumymoodle_courses {
     display: block;
-    background-image: url('/theme/image.php?theme=standard&component=core&image=i%2Fcourse');
+    background-image: url('/theme/image.php?theme=cqu2013&component=core&image=i%2Fcourse');
     background-repeat: no-repeat;
     padding-left: 25px;
     padding-bottom: 3px;
