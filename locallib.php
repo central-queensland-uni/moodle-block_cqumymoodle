@@ -89,7 +89,13 @@ function block_cqumymoodle_curl_wrapper($serverurl, $restformat, $params) {
     if ($CFG->version >= 2013111800) {
         header('Content-Type: text/plain');
     }
+
+    $curloptions = array(
+        'CURLOPT_CONNECTTIMEOUT' => 5, // 5 seconds should be plenty.
+        'CURLOPT_TIMEOUT'        => 5  // Again 5 seconds should be plenty.
+    );
     $curl = new curl();
+    $curl->setopt($curloptions);
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat='.$restformat : '';
 
     try {
