@@ -92,7 +92,7 @@ function block_cqumymoodle_curl_wrapper($serverurl, $restformat, $params) {
 
     $curloptions = array(
         'CURLOPT_CONNECTTIMEOUT' => 5, // 5 seconds should be plenty.
-        'CURLOPT_TIMEOUT'        => 5  // Again 5 seconds should be plenty.
+        'CURLOPT_TIMEOUT'        => 10 // 10 seconds because name resolution can take up to 3 secs.
     );
     $curl = new curl();
     $curl->setopt($curloptions);
