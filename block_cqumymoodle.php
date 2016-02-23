@@ -104,24 +104,23 @@ class block_cqumymoodle extends block_base {
     }
 
     /**
-     * Get the contents of the block
-     * @return object $this->content
+     * Get the contents of the block via ajax
+     *
+     * @return string $html
      */
-    public function get_content() {
+    public function get_ajax_content() {
         global $CFG, $USER;
-
-        if ($this->content !== null) {
-            return $this->content;
-        }
-
-        require_once($CFG->dirroot.'/blocks/cqumymoodle/locallib.php');
-
-        $this->content = new stdClass;
-        $this->content->footer = '';
         $config = $this->config;
 
-        $html = '<!-- Start block cqumymoodle -->';
-        $html .= html_writer::start_tag('div', array('class' => 'outer-container block_cqumymoodle'));
+        $cache = cache::make('block_cqumymoodle', 'remote');
+        $key = $USER->id . '-' . $this->instance->id;
+        $html = $cache->get($key);
+
+        if ($html) {
+            return $html;
+        }
+
+        $html = '';
         $html .= html_writer::start_tag('div', array('class' => 'content block_cqumymoodle'));
 
         if (isset($config->endpoint) && $config->endpoint !== '') {
@@ -219,6 +218,65 @@ class block_cqumymoodle extends block_base {
         }
 
         $html .= html_writer::end_tag('div');   // Close content div.
+
+        $cache->set($key, $html);
+
+        return $html;
+    }
+
+    /**
+     * Get the contents of the block
+     * @return object $this->content
+     */
+    public function get_content() {
+        global $CFG, $USER;
+
+        if ($this->content !== null) {
+            return $this->content;
+        }
+
+        require_once($CFG->dirroot.'/blocks/cqumymoodle/locallib.php');
+
+        $this->content = new stdClass;
+        $this->content->footer = '';
+
+        $html = '<!-- Start block cqumymoodle -->';
+        $html .= html_writer::start_tag('div', array('class' => 'outer-container block_cqumymoodle'));
+
+        $cache = cache::make('block_cqumymoodle', 'remote');
+        $key = $USER->id . '-' . $this->instance->id;
+        $chunk = $cache->get($key);
+
+        if ($chunk) {
+
+            // If it in the cache render it directly.
+            $html .= $chunk;
+        } else {
+
+            // If not then load it in ajax.
+            // $html .= $this->get_ajax_content();
+            $id = $this->instance->id;
+            $html .= <<<EOT
+<div id='cqumymoodle$id'> Loading .... </div>
+<script>
+(function(){
+
+    var io = new Y.IO();
+    io.send('/blocks/cqumymoodle/ajax.php', {
+        method: 'GET',
+        on: {
+            complete: function(id, o) {
+                var el = document.getElementById('cqumymoodle$id');
+                el.innerHTML = o.response;
+            }
+        },
+        data: "id=$id"
+    });
+})();
+</script>
+EOT;
+        }
+
         $html .= html_writer::end_tag('div');   // Close outer-container div.
         $html .= '<!-- End block_cqumymoodle -->';
 

@@ -19,15 +19,14 @@
  *
  * @package     block
  * @subpackage  cqumymoodle
- * @author      Marcus Boon<marcus@catalyst-au.net>
- * @copyright   2014 CQUniversity
+ * @author      Brendan Heywood <brendan@catalyst-au.net>
+ * @copyright   2016 CQUniversity
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+$definitions = array(
+    'remote' => array(
+        'mode' => cache_store::MODE_APPLICATION
+    )
+);
 
-$plugin->version    = 2015012001;           // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires   = 2011120500;           // Moodle 2.2 and above.
-$plugin->component  = 'block_cqumymoodle';  // Fullname of the plugin (used for diagnostics).
-$plugin->maturity   = MATURITY_STABLE;      // Ready for production sites.
-$plugin->release    = '1.0.2 (Build: 2015012000)';

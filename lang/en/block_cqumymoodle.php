@@ -42,3 +42,5 @@ $string['newcqumymoodleblock'] = '(new CQU MyMoodle block)';
 $string['nodata'] = 'We could not find any data!';
 $string['noendpointset'] = 'An endpoint has not yet been configured for this block.';
 $string['usermatch'] = 'User field we should match on';
+$string['cachedef_remote'] = 'A cache of the remote course data for a user.';
+

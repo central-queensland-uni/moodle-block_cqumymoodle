@@ -24,10 +24,19 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+define('AJAX_SCRIPT', true);
 
-$plugin->version    = 2015012001;           // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires   = 2011120500;           // Moodle 2.2 and above.
-$plugin->component  = 'block_cqumymoodle';  // Fullname of the plugin (used for diagnostics).
-$plugin->maturity   = MATURITY_STABLE;      // Ready for production sites.
-$plugin->release    = '1.0.2 (Build: 2015012000)';
+require_once("../../config.php");
+require_once("$CFG->dirroot/blocks/moodleblock.class.php");
+require_once("$CFG->dirroot/lib/filelib.php");
+require_once('block_cqumymoodle.php');
+require_once('locallib.php');
+
+require_login();
+$context = context_user::instance($USER->id);
+$PAGE->set_context($context);
+
+$blockid = required_param('id', PARAM_INT);
+$instance = $DB->get_record('block_instances', array('id' => $blockid));
+$block = block_instance('cqumymoodle', $instance);
+echo $block->get_ajax_content();
