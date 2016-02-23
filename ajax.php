@@ -36,6 +36,9 @@ require_login();
 $context = context_user::instance($USER->id);
 $PAGE->set_context($context);
 
+// Close the session so even if the ajax takes ages then
+// we don't stop the student from doing something else.
+\core\session\manager::write_close();
 $blockid = required_param('id', PARAM_INT);
 $instance = $DB->get_record('block_instances', array('id' => $blockid));
 $block = block_instance('cqumymoodle', $instance);
