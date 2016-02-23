@@ -26,7 +26,7 @@
 
 $definitions = array(
     'remote' => array(
-        'mode' => cache_store::MODE_APPLICATION
+        'mode' => cache_store::MODE_SESSION
     )
 );
 
