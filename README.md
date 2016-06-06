@@ -1,3 +1,8 @@
+<a href="https://travis-ci.org/central-queensland-uni/moodle-block_cqumymoodle">
+<img src="https://travis-ci.org/central-queensland-uni/moodle-block_cqumymoodle.svg?branch=master">
+</a>
+
+
 Installation
 ============
 
