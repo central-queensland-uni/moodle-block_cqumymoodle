@@ -35,7 +35,6 @@ class block_cqumymoodle_generator_testcase extends advanced_testcase {
         $beforeblocks = $DB->count_records('block_instances');
         $beforecontexts = $DB->count_records('context');
 
-        /** @var block_online_users_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('block_cqumymoodle');
         $this->assertInstanceOf('block_cqumymoodle_generator', $generator);
         $this->assertEquals('cqumymoodle', $generator->get_blockname());
@@ -43,6 +42,6 @@ class block_cqumymoodle_generator_testcase extends advanced_testcase {
         $generator->create_instance();
         $generator->create_instance();
         $bi = $generator->create_instance();
-        $this->assertEquals($beforeblocks+3, $DB->count_records('block_instances'));
+        $this->assertEquals($beforeblocks + 3, $DB->count_records('block_instances'));
     }
 }

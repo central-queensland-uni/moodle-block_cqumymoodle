@@ -72,7 +72,8 @@ class block_cqumymoodle extends block_base {
     }
 
     public function specialization() {
-        $this->title = isset($this->config->title) ? format_string($this->config->title) : format_string(get_string('newcqumymoodleblock', 'block_cqumymoodle'));
+        $this->title = isset($this->config->title) ? format_string($this->config->title) :
+                format_string(get_string('newcqumymoodleblock', 'block_cqumymoodle'));
     }
 
     /**
@@ -254,7 +255,6 @@ class block_cqumymoodle extends block_base {
         } else {
 
             // If not then load it in ajax.
-            // $html .= $this->get_ajax_content();
             $id = $this->instance->id;
             $html .= <<<EOT
 <div id='cqumymoodle$id'> Loading .... </div>
