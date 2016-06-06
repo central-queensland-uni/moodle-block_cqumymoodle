@@ -17,8 +17,7 @@
 /**
  * Version details.
  *
- * @package     block
- * @subpackage  cqumymoodle
+ * @package     block_cqumymoodle
  * @author      Brendan Heywood <brendan@catalyst-au.net>
  * @copyright   2016 CQUniversity
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

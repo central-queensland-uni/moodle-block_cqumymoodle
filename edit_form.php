@@ -17,14 +17,27 @@
 /**
  * Form for editing HTML block instances.
  *
- * @package     block
- * @subpackage  cqumymoodle
+ * @package     block_cqumymoodle
+ * @author      Marcus Boon<marcus@catalyst-au.net>
+ * @copyright   2014 CQUniversity
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/**
+ * Form for editing HTML block instances.
+ *
+ * @package     block_cqumymoodle
  * @author      Marcus Boon<marcus@catalyst-au.net>
  * @copyright   2014 CQUniversity
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_cqumymoodle_edit_form extends block_edit_form {
 
+    /**
+     * Form definition
+     *
+     * @param object $mform the form being built.
+     */
     protected function specific_definition($mform) {
 
         // Fields for configuring the CQUMyMoodle block.
@@ -113,6 +126,11 @@ class block_cqumymoodle_edit_form extends block_edit_form {
 
     }
 
+    /**
+     * Set defaults
+     *
+     * @param object $defaults defaults.
+     */
     public function set_data($defaults) {
         if (!empty($this->block->config) && is_object($this->block->config)) {
             $endpoint = $this->block->config->endpoint;

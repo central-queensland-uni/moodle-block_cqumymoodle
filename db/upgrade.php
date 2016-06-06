@@ -17,17 +17,16 @@
 /**
  * CQU mymoodle block upgrade functions.
  *
- * @package     block
- * @subpackage  cqumymoodle
+ * @package     block_cqumymoodle
  * @author      Marcus Boon<marcus@catalyst-au.net>
  * @copyright   2014 CQUniversity
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
+ * Upgrade script
  *
  * @param int $oldversion
- * @param object $block
  */
 function xmldb_block_cqumymoodle_upgrade($oldversion) {
     global $CFG, $DB;

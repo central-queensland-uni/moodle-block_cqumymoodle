@@ -17,8 +17,7 @@
 /**
  * External function definitions.
  *
- * @package     block
- * @subpackage  cqumymoodle
+ * @package     block_cqumymoodle
  * @author      Marcus Boon<marcus@catalyst-au.net>
  * @copyright   2014 CQUniversity
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
