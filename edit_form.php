@@ -81,7 +81,7 @@ class block_cqumymoodle_edit_form extends block_edit_form {
             'text',
             'config_endpoint',
             get_string('configendpoint', 'block_cqumymoodle'),
-            array('size' => 40)
+            array('size' => 70)
         );
         $mform->addHelpButton('config_endpoint', 'configendpoint', 'block_cqumymoodle');
         $mform->addRule('config_endpoint', null, 'required', null, 'client');
@@ -119,7 +119,8 @@ class block_cqumymoodle_edit_form extends block_edit_form {
         $mform->addElement(
             'text',
             'config_token',
-            get_string('configtoken', 'block_cqumymoodle')
+            get_string('configtoken', 'block_cqumymoodle'),
+            array('size' => 70)
         );
         $mform->setType('config_token', PARAM_TEXT);
         $mform->disabledIf('config_token', 'config_ismoodle', 'notchecked');
