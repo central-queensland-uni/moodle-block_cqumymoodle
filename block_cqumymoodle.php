@@ -112,9 +112,13 @@ class block_cqumymoodle extends block_base {
         global $CFG, $USER;
         $config = $this->config;
 
-        $cache = cache::make('block_cqumymoodle', 'remote');
-        $key = $USER->id . '-' . $this->instance->id;
-        $html = $cache->get($key);
+        if (class_exists('cache')) {
+            $cache = cache::make('block_cqumymoodle', 'remote');
+            $key = $USER->id . '-' . $this->instance->id;
+            $html = $cache->get($key);
+        } else {
+            $html = null;
+        }
 
         if ($html) {
             return $html;
@@ -223,7 +227,9 @@ class block_cqumymoodle extends block_base {
 
         $html .= html_writer::end_tag('div');   // Close content div.
 
-        $cache->set($key, $html);
+        if (class_exists('cache')) {
+            $cache->set($key, $html);
+        }
 
         return $html;
     }
@@ -247,9 +253,13 @@ class block_cqumymoodle extends block_base {
         $html = '<!-- Start block cqumymoodle -->';
         $html .= html_writer::start_tag('div', array('class' => 'outer-container block_cqumymoodle'));
 
-        $cache = cache::make('block_cqumymoodle', 'remote');
-        $key = $USER->id . '-' . $this->instance->id;
-        $chunk = $cache->get($key);
+        if (class_exists('cache')) {
+            $cache = cache::make('block_cqumymoodle', 'remote');
+            $key = $USER->id . '-' . $this->instance->id;
+            $chunk = $cache->get($key);
+        } else {
+            $chunk = null;
+        }
 
         if ($chunk) {
 
@@ -264,17 +274,15 @@ class block_cqumymoodle extends block_base {
 <script>
 (function(){
 
-    var io = new Y.IO();
-    io.send('/blocks/cqumymoodle/ajax.php', {
-        method: 'GET',
-        on: {
-            complete: function(id, o) {
-                var el = document.getElementById('cqumymoodle$id');
-                el.innerHTML = o.response;
-            }
-        },
-        data: "id=$id"
-    });
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("cqumymoodle$id").innerHTML = xmlhttp.responseText;
+        }
+    };
+    xmlhttp.open("GET", '/blocks/cqumymoodle/ajax.php?id=$id', true);
+    xmlhttp.send();
+
 })();
 </script>
 EOT;
