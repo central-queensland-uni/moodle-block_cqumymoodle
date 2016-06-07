@@ -155,6 +155,10 @@ class block_cqumymoodle extends block_base {
             $courses = block_cqumymoodle_get_courses_json($endpoint, $ssl, $token, $id, $idtype, $ismoodle);
             if (!empty($courses)) {
 
+                if (isset($courses->exception)) {
+                    return "Exception: " . $courses->message;
+                }
+
                 $html .= html_writer::start_tag('ul');
 
                 $categories = array();
