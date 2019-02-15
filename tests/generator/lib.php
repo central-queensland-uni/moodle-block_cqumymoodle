@@ -40,6 +40,8 @@ class block_cqumymoodle_generator extends testing_block_generator {
         $this->instancecount++;
 
         $record = (object)(array)$record;
+        $record->timecreated = (int) time();
+        $record->timemodified = (int) time();
         $options = (array)$options;
 
         $record = $this->prepare_record($record);
